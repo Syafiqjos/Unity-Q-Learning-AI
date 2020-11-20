@@ -53,7 +53,14 @@ public class FrogGameTerrain : MonoBehaviour
 
     void CheckCursor()
     {
-        minion.SetActive(FrogGameMaster.latestIndex0Terrain == index || FrogGameMaster.latestIndex1Terrain == index);
+        minion.SetActive(false);
+        for (int i = 0;i < FrogGameMaster.latestIndexTerrain.Length; i++) {
+            if (FrogGameMaster.latestIndexTerrain[i] == index)
+            {
+                minion.SetActive(true);
+                return;
+            }
+        }
     }
 
     void Move()

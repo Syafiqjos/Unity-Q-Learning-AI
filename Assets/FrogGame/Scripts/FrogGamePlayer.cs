@@ -49,11 +49,11 @@ public class FrogGamePlayer : MonoBehaviour
                     if (!other.gameObject.GetComponent<FrogGameTerrain>().isSafeTerrain)
                     {
                         FrogGameMaster.isGameOver = true;
-                        FrogGameMemory.AddMemory(FrogGameMaster.latestIndex0, FrogGameMaster.latestIndex1, FrogGameMaster.latestJumpType, false);
+                        FrogGameMemory.AddMemory((bool[]) FrogGameMaster.latestIndex.Clone(), FrogGameMaster.latestJumpType, false);
                     }
                     else
                     {
-                        FrogGameMemory.AddMemory(FrogGameMaster.latestIndex0, FrogGameMaster.latestIndex1, FrogGameMaster.latestJumpType, true);
+                        FrogGameMemory.AddMemory((bool[])FrogGameMaster.latestIndex.Clone(), FrogGameMaster.latestJumpType, true);
                     }
 
                     gameMaster.GetLatestIndex();

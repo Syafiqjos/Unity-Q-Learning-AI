@@ -16,13 +16,13 @@ public class FrogGameMaster : MonoBehaviour
     public GameObject terrainPrefab;
     public FrogGamePlayer player;
 
-    public List<int> indexList = new List<int>();
+    public List<bool> indexList = new List<bool>();
 
     public static int latestIndexOffset = 4;
-    public static int latestIndex0Terrain;
-    public static int latestIndex1Terrain;
-    public static int latestIndex0;
-    public static int latestIndex1;
+
+    public static int[] latestIndexTerrain;
+    public static bool[] latestIndex;
+
     public static int latestJumpType;
 
     public float randomTimeMax = 3;
@@ -48,6 +48,8 @@ public class FrogGameMaster : MonoBehaviour
         isGameOver = true;
 
         ui.SetActive(true);
+
+        Restart();
     }
 
     public void Restart()
@@ -57,15 +59,20 @@ public class FrogGameMaster : MonoBehaviour
 
     void Start()
     {
-        latestIndex0 = 0;
-        latestIndex1 = 0;
-        latestIndex0Terrain = 0;
-        latestIndex1Terrain = 0;
+        latestIndexTerrain = new int[FrogGameMemory.GetInputCount()];
+        latestIndex = new bool[FrogGameMemory.GetInputCount()];
+
+        latestIndexOffset = 4;
+
         latestJumpType = 0;
         scoreValue = 0;
         isGameOver = false;
         isGameOverPrev = false;
-        Spawn(true); Spawn(); Spawn(); Spawn(); Spawn();
+        //
+        for (int i = 0; i < FrogGameMemory.GetInputCount() + 5; i++)
+        {
+            Spawn(true);
+        }
 
         GetLatestIndex();
     }
@@ -83,31 +90,19 @@ public class FrogGameMaster : MonoBehaviour
                 randomTime = Random.Range(0.0f, randomTimeMax);
             }
 
-            if (FrogGameMemory.CheckMemory(latestIndex0,latestIndex1) == 0)
-            {
-                Jump();
-            } else if (FrogGameMemory.CheckMemory(latestIndex0, latestIndex1) == 1)
-            {
-                DoubleJump();
-            }
+            Jump(FrogGameMemory.CheckMemory(latestIndex));
         }
     }
 
-    void Jump()
+    void Jump(int far)
     {
-        Spawn();
+        for (int i = 0; i <= far; i++)
+        {
+            Spawn();
+        }
         player.Jump();
-        AddScore(100);
-        latestJumpType = 0;
-    }
-
-    void DoubleJump()
-    {
-        Spawn();
-        Spawn();
-        player.Jump();
-        AddScore(200);
-        latestJumpType = 1;
+        AddScore(100 * (far + 1));
+        latestJumpType = far;
     }
 
     public void GetLatestIndex()
@@ -116,13 +111,13 @@ public class FrogGameMaster : MonoBehaviour
 
         if (indexList.Count - latestIndexOffset + 1 >= 0)
         {
-            latestIndex0Terrain = indexList.Count - latestIndexOffset;
-            latestIndex1Terrain = indexList.Count - latestIndexOffset + 1;
+            for (int i = 0;i < latestIndexTerrain.Length;i++)
+            {
+                latestIndexTerrain[i] = indexList.Count - latestIndexOffset + i;
+                latestIndex[i] = indexList[latestIndexTerrain[i]];
+            }
 
-            latestIndex0 = indexList[latestIndex0Terrain];
-            latestIndex1 = indexList[latestIndex1Terrain];
-
-            Debug.Log(latestIndex0Terrain + " - " + latestIndex1Terrain);
+            //Debug.Log(latestIndex0Terrain + " - " + latestIndex1Terrain);
         }
         else {
             Debug.Log("NOPE");
@@ -149,10 +144,10 @@ public class FrogGameMaster : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.A))
             {
-                Jump();
+                //Jump();
             } else if (Input.GetKeyDown(KeyCode.S))
             {
-                DoubleJump();
+                //DoubleJump();
             }
 
             uiScore.text = "Score : " + scoreValue.ToString();
@@ -171,9 +166,21 @@ public class FrogGameMaster : MonoBehaviour
         }
         else
         {
-            if (indexList[indexList.Count - 1] == 0 && isSafe == 0)
+            if (isSafe == 0)
             {
-                isSafe = 1;
+                int count = 0;
+                for (int i = 1; i < FrogGameMemory.GetInputCount(); i++)
+                {
+                    if (indexList[indexList.Count - i] == false)
+                    {
+                        count++;
+                    }
+                }
+
+                if (count >= FrogGameMemory.GetInputCount() - 1)
+                {
+                    isSafe = 1;
+                }
             }
         }
 
@@ -184,12 +191,12 @@ public class FrogGameMaster : MonoBehaviour
         if (isSafe == 1)
         {
             ne.GetComponent<FrogGameTerrain>().Initialize(true, indexList.Count);
+            indexList.Add(true);
         } else
         {
             ne.GetComponent<FrogGameTerrain>().Initialize(false, indexList.Count);
+            indexList.Add(false);
         }
-
-        indexList.Add(isSafe);
 
         RefreshTerrain();
     }
