@@ -11,7 +11,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{18A75500-E40A-C9F4-F392-6D303BFFCA07}</ProjectGuid>
+    <ProjectGuid>{209B5B2A-450F-90FD-21BC-E92F3E17F2AD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -56,8 +56,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\FrogGame\Scripts\FrogGameMaster.cs" />
-     <Compile Include="Assets\FrogGame\Scripts\FrogGameMemory.cs" />
      <Compile Include="Assets\FrogGame\Scripts\FrogGamePlayer.cs" />
+     <Compile Include="Assets\FrogGame\Scripts\FrogGameQLearning.cs" />
      <Compile Include="Assets\FrogGame\Scripts\FrogGameTerrain.cs" />
  <Reference Include="UnityEngine">
  <HintPath>D:/Software/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -594,31 +594,31 @@
  <HintPath>D:/Software/Unity/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline.Editor">
- <HintPath>D:/Software/MLTest/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+ <HintPath>D:/Software/MLTest/MLTestQLearning/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.VSCode.Editor">
- <HintPath>D:/Software/MLTest/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+ <HintPath>D:/Software/MLTest/MLTestQLearning/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
- <HintPath>D:/Software/MLTest/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ <HintPath>D:/Software/MLTest/MLTestQLearning/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>D:/Software/MLTest/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>D:/Software/MLTest/MLTestQLearning/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline">
- <HintPath>D:/Software/MLTest/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ <HintPath>D:/Software/MLTest/MLTestQLearning/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
  </Reference>
  <Reference Include="Unity.CollabProxy.Editor">
- <HintPath>D:/Software/MLTest/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+ <HintPath>D:/Software/MLTest/MLTestQLearning/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Rider.Editor">
- <HintPath>D:/Software/MLTest/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+ <HintPath>D:/Software/MLTest/MLTestQLearning/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro">
- <HintPath>D:/Software/MLTest/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ <HintPath>D:/Software/MLTest/MLTestQLearning/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
- <HintPath>D:/Software/MLTest/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>D:/Software/MLTest/MLTestQLearning/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

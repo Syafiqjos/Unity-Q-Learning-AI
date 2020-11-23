@@ -1,13 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FrogGameMaster : MonoBehaviour
 {
     public GameObject ui;
-    public UnityEngine.UI.Text uiScore;
+    public Text uiScore;
+    public Text uiTime;
+    public Text uiRetry;
 
     public static int scoreValue;
+    public static float timeValue;
+    public static int retryValue;
     public static bool isGameOver;
     private static bool isGameOverPrev;
     public static float nextPositionDelta = -5;
@@ -54,22 +59,28 @@ public class FrogGameMaster : MonoBehaviour
 
     public void Restart()
     {
+        retryValue++;
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
     void Start()
     {
-        latestIndexTerrain = new int[FrogGameMemory.GetInputCount()];
-        latestIndex = new bool[FrogGameMemory.GetInputCount()];
+        latestIndexTerrain = new int[FrogGameQLearning.GetInputCount()];
+        latestIndex = new bool[FrogGameQLearning.GetInputCount()];
 
-        latestIndexOffset = 4;
+        latestIndexOffset = FrogGameQLearning.GetInputCount();
+        //latestIndexOffset = 8;
+        //latestIndexOffset = FrogGameQLearning.NUMBER_OF_ACTIONS;
 
         latestJumpType = 0;
         scoreValue = 0;
         isGameOver = false;
         isGameOverPrev = false;
         //
-        for (int i = 0; i < FrogGameMemory.GetInputCount() + 5; i++)
+
+        uiRetry.text = "Retry : " + retryValue.ToString() + " (s)";
+
+        for (int i = 0; i < FrogGameQLearning.GetInputCount() + 10; i++)
         {
             Spawn(true);
         }
@@ -82,15 +93,17 @@ public class FrogGameMaster : MonoBehaviour
         randomTime -= Time.deltaTime;
         if (randomTime < 0)
         {
-            if (FrogGameMemory.memoryFragments.Count > 0)
+            /*
+            if (FrogQLearning.memoryFragments.Count > 0)
             {
-                randomTime = Random.Range(0.0f, randomTimeMax / (FrogGameMemory.memoryFragments.Count * 2));
+                randomTime = Random.Range(0.0f, randomTimeMax / (FrogQLearning.memoryFragments.Count * 2));
             } else
             {
                 randomTime = Random.Range(0.0f, randomTimeMax);
             }
+            */
 
-            Jump(FrogGameMemory.CheckMemory(latestIndex));
+            Jump(FrogGameQLearning.CheckMemory(latestIndex));
         }
     }
 
@@ -126,6 +139,19 @@ public class FrogGameMaster : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            Time.timeScale *= 2;
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            Time.timeScale *= 0.5f;
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (Time.timeScale == 0)
@@ -153,6 +179,9 @@ public class FrogGameMaster : MonoBehaviour
             uiScore.text = "Score : " + scoreValue.ToString();
         }
 
+        timeValue += Time.deltaTime;
+        uiTime.text = "Time : " + ((int)timeValue / 60).ToString("D2") + ":" + (((int)timeValue) % 60).ToString("D2");
+
         CheckGameOver();
     }
 
@@ -169,7 +198,7 @@ public class FrogGameMaster : MonoBehaviour
             if (isSafe == 0)
             {
                 int count = 0;
-                for (int i = 1; i < FrogGameMemory.GetInputCount(); i++)
+                for (int i = 1; i < FrogGameQLearning.GetInputCount(); i++)
                 {
                     if (indexList[indexList.Count - i] == false)
                     {
@@ -177,7 +206,7 @@ public class FrogGameMaster : MonoBehaviour
                     }
                 }
 
-                if (count >= FrogGameMemory.GetInputCount() - 1)
+                if (count >= FrogGameQLearning.GetInputCount() - 1)
                 {
                     isSafe = 1;
                 }

@@ -73,9 +73,14 @@ public class FrogGameTerrain : MonoBehaviour
 
     void CheckDeath()
     {
-        if (transform.position.x < -20)
+        if (transform.position.x < -50)
         {
             Destroy(gameObject);
         }
+    }
+
+    public void Greened()
+    {
+        GetComponent<SpriteRenderer>().color = Color.green;
     }
 }
